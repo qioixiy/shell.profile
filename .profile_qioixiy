@@ -1,0 +1,200 @@
+#!private profile
+
+[ -f ~/.profile_helper.sh ] && source ~/.profile_helper.sh
+
+function my_help() {
+    cat <<EOF
+
+++git
+git log --pretty=format:"%h"
+cee50dd
+git log --pretty=oneline
+aee50d5d7621291b86f628cce4465714d7f9d034 commit log
+git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+# 下面参数定义列表
+'%H': commit hash
+'%h': 缩短的commit hash
+'%T': tree hash
+'%t': 缩短的 tree hash
+'%P': parent hashes
+'%p': 缩短的 parent hashes
+'%an': 作者名字
+'%aN': mailmap的作者名字 (.mailmap对应，详情参照git-shortlog(1)或者git-blame(1))
+'%ae': 作者邮箱
+'%aE': 作者邮箱 (.mailmap对应，详情参照git-shortlog(1)或者git-blame(1))
+'%ad': 日期 (--date= 制定的格式)
+'%aD': 日期, RFC2822格式
+'%ar': 日期, 相对格式(1 day ago)
+'%at': 日期, UNIX timestamp
+'%ai': 日期, ISO 8601 格式
+'%cn': 提交者名字
+'%cN': 提交者名字 (.mailmap对应，详情参照git-shortlog(1)或者git-blame(1))
+'%ce': 提交者 email
+'%cE': 提交者 email (.mailmap对应，详情参照git-shortlog(1)或者git-blame(1))
+'%cd': 提交日期 (--date= 制定的格式)
+'%cD': 提交日期, RFC2822格式
+'%cr': 提交日期, 相对格式(1 day ago)
+'%ct': 提交日期, UNIX timestamp
+'%ci': 提交日期, ISO 8601 格式
+'%d': ref名称
+'%e': encoding
+'%s': commit信息标题
+'%f': sanitized subject line, suitable for a filename
+'%b': commit信息内容
+'%N': commit notes
+'%gD': reflog selector, e.g., refs/stash@{1}
+'%gd': shortened reflog selector, e.g., stash@{1}
+'%gs': reflog subject
+'%Cred': 切换到红色
+'%Cgreen': 切换到绿色
+'%Cblue': 切换到蓝色
+'%Creset': 重设颜色
+'%C(...)': 制定颜色, as described in color.branch.* config option
+'%m': left, right or boundary mark
+'%n': 换行
+'%%': a raw %
+'%x00': print a byte from a hex code
+'%w([[,[,]]])': switch line wrapping, like the -w option of git-shortlog(1).
+
+EOF
+}
+
+function my_run_exec_echo()
+{
+    echo -e "\033[7mrun_exec:\033[0m" $@
+    $@
+}
+
+function my_run_loop()
+{
+    while [ true ]; do
+        my_run_exec_echo $@
+        sleep 1
+    done
+}
+function my_run_until_true()
+{
+    echo `date`,start
+    until $@ ; do
+        echo "cmd:$@,restart"
+    done
+    echo `date`,done
+}
+
+function my_findSymbolFromSo() {
+    for lib in `ls *`
+    do
+        cmd="nm ${lib} 2>/dev/null | grep $@"
+        res=`eval ${cmd}`
+        if [ "" != "$res" ]; then
+            echo "$lib"
+            echo "$res"
+        fi
+    done
+}
+
+function my_custom_log()
+{
+    echo $@ >> /tmp/custom_log.log
+}
+
+function my_print_list()
+{
+    for item in $@
+    do
+        echo $item
+    done
+}
+
+# $1:dir
+function my_get_dir_list()
+{
+    if [ ! -d $1 ]; then
+        return 1;
+    fi
+    local dir_list=''
+    local target_dir=`cd $1 && pwd`
+    pushd $target_dir 2>&1 > /dev/null
+    for d in `ls`
+    do
+        # echo $d
+        if [ -d $d ]; then
+            abs_path=`cd $d 2>/tmp/$$.log  && pwd`
+            if [ $? ]; then
+                dir_list=$dir_list" $abs_path"
+            fi
+        fi
+    done
+    popd 2>&1 > /dev/null
+    echo $dir_list
+    return 0
+}
+
+# $1:dir, $2:level
+# print_list `get_dir_list_level . 4`
+function my_get_dir_list_level()
+{
+    local _dir=$1
+    local _level=$2
+
+    if [ 1 -eq $_level ]; then
+        _list=`my_get_dir_list $_dir`
+        echo $_list
+        return 0
+    fi
+
+    let "_level=$_level-1"
+    for __dir in `my_get_dir_list $_dir`
+    do
+        local __list=`my_get_dir_list_level $__dir $_level`
+        echo $__list
+    done
+
+    return 0
+}
+
+function my_editer() {
+    echo emacs
+}
+
+function my_editer_client() {
+    echo emacsclient
+}
+
+function my_sync() {
+    pushd ~
+    git pull
+    popd
+
+    script=~/myspace/my_sync.sh
+    if [ -f $script ]; then
+        sh ~/myspace/my_sync.sh
+    fi
+}
+
+function my_replace_str_current_dir() {
+    if [ 2 -ne $# ]; then
+        echo usage: my_replace_current_all src dest
+        return
+    fi
+    src=$1
+    dest=$2
+    sed -i -e "s/${src}/${dest}/g" `grep ${src} -rl ./`
+}
+
+function my_plan9port_env() {
+	PLAN9=/usr/local/plan9 export PLAN9
+	PATH=$PATH:$PLAN9/bin export PATH
+}
+
+alias e='`my_editer` -nw $@'
+alias egui='`my_editer` $@'
+alias ec='`my_editer_client` -nw -c $@'
+alias ecgui='`my_editer_client` -c $@'
+
+#export PS1='\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\u@\h:\w\n\$'
+
+# git prompt
+## curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh -o ~/.git-prompt.sh
+export GIT_PS1_SHOWDIRTYSTATE=1
+export PS1='\[\e[32m\]\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\u@\[\e[31m\]\h:\[\e[36m\]\w\[\e[m\]\033[01;33m$(__git_ps1)\033[01;34m \$\033[00m\n\$'
