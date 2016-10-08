@@ -76,7 +76,7 @@ get_git_repo_list() {
 	 find_dir=${1:-.}
 	 list_file=${2:-git_list.txt}
 	 > $list_file
-	 
+
 	 repo_git=$(find_suffix_in_dir $find_dir .git)
 	 for _git in $repo_git
 	 do
