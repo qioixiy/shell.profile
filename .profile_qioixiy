@@ -190,6 +190,7 @@ function my_plan9port_env() {
 alias e='`my_editer` -nw $@'
 alias egui='`my_editer` $@'
 alias ec='`my_editer_client` -nw -c $@'
+alias ecg='`my_editer_client` -c -n $@'
 alias ecgui='`my_editer_client` -c $@'
 
 #export PS1='\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\u@\h:\w\n\$'

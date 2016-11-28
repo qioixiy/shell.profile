@@ -1,3 +1,7 @@
+#!/bin/bash
+
+# http://blog.csdn.net/lihuanshuai/article/details/39033893
+
 expire=1.second.ago
 #expire=now
 auto=1
@@ -7,6 +11,10 @@ repack_all_option='';
 gc_auto_threshold=1;
 #gc_auto_pack_limit=50;
 gc_auto_pack_limit=1;
+
+function log_print() {
+    echo $*
+}
 
 function add_repack_all_option() {
     if [ "now" == "${expire}" ]; then
