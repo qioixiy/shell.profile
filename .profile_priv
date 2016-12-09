@@ -183,8 +183,19 @@ function my_replace_str_current_dir() {
 }
 
 function my_plan9port_env() {
-	PLAN9=/usr/local/plan9 export PLAN9
-	PATH=$PATH:$PLAN9/bin export PATH
+    PLAN9=/usr/local/plan9 export PLAN9
+    PATH=$PATH:$PLAN9/bin export PATH
+}
+
+function my_repeat() {
+    COUNTER=$1
+    shift
+
+    while [ $COUNTER -gt 0 ]; do
+        #echo The counter is $COUNTER
+        let COUNTER=COUNTER-1
+        my_run_exec_echo $@
+    done
 }
 
 alias e='`my_editer` -nw $@'
