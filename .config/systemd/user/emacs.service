@@ -1,11 +1,15 @@
 [Unit]
-Description=Emacs: the extensible, self-documenting text editor
+Description=GNU Emacs: the extensible, self-documenting text editor
+Documentation=man:emacs(1) info:Emacs
 
 [Service]
-Type=forking
+#Type=forking
+Type=simple
 ExecStart=/usr/bin/env emacs --daemon
-ExecStop=/usr/bin/env emacsclient --eval "(kill-emacs)"
-Restart=always
+#ExecStart=/usr/bin/env emacs --new-daemon
+#ExecStop=/usr/bin/env emacsclient --eval "(kill-emacs)"
+ExecStop=/usr/bin/env emacsclient --eval "(progn (setq kill-emacs-hook 'nil) (kill-emacs))"
+Restart=on-failure
 RestartSec=3
 
 [Install]
