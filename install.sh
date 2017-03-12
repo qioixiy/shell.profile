@@ -5,7 +5,12 @@ list=$(ls -a | grep -v "^\.\.*$" | grep -v "^\.git$" \
 
 for i in $list
 do
-	cp $i ~/ -rfv
+    if [ -d $i ]
+    then
+        cp $i/* $HOME/$i/ -rfv
+    else
+        cp $i $HOME -rfv
+    fi
 done
 
 # bash bootstrap
