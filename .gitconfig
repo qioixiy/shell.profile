@@ -1,12 +1,12 @@
 [apply]
 	whitespace = nowarn
 [user]
-	email = zhouxueyuan@saicmotor.com
-	name = cndul
+	email = qioixiy@gmail.com
+	name = qioixiy
 [push]
 	default = simple
-[review "http://192.168.1.52:8081"]
-	username = cndul
+[review "http://127.0.0.1:8080"]
+	username = qioixiy
 [color]
 	ui = auto
 	; @see http://comments.gmane.org/gmane.comp.version-control.git/166098
