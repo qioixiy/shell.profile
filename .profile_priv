@@ -1,10 +1,11 @@
-#!private profile
+#!/bin/sh
+
+# private profile
 
 [ -f ~/.profile_helper.sh ] && source ~/.profile_helper.sh
 
 function my_help() {
     cat <<EOF
-
 ++git
 git log --pretty=format:"%h"
 cee50dd
@@ -55,7 +56,6 @@ git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(
 '%%': a raw %
 '%x00': print a byte from a hex code
 '%w([[,[,]]])': switch line wrapping, like the -w option of git-shortlog(1).
-
 EOF
 }
 
