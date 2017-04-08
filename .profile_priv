@@ -262,6 +262,7 @@ alias egui='`my_editer` $@'
 alias ec='`my_editer_client` -nw -c $@'
 alias ecg='`my_editer_client` -c -n $@'
 alias ecgui='`my_editer_client` -c $@'
+alias ll="ls --color -l"
 
 #export PS1='\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\u@\h:\w\n\$'
 
