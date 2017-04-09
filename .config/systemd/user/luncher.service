@@ -1,0 +1,9 @@
+[Unit]
+Description=luncher: custom luncher
+
+[Service]
+Type=simple
+ExecStart=/home/cndul/bin/luncher
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [ -f ~/bin/luncher-config ]; then
+    source ~/bin/luncher-config
+fi
