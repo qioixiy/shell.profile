@@ -1,0 +1,61 @@
+#!/bin/bash
+
+uuencode=1
+binary=0
+
+function list_payload()
+{
+        match=$(grep --text --line-number '^PAYLOAD:$' $0 | cut -d ':' -f 1)
+        payload_start=$((match + 1))
+        if [[ $binary -ne 0 ]]; then
+                tail -n +$payload_start $0 | tar -tzvf -
+        fi
+        if [[ $uuencode -ne 0 ]]; then
+                tail -n +$payload_start $0 | uudecode | tar -tzvf -
+        fi
+}
+
+function untar_payload()
+{
+        param=""
+        dest=""
+        if [ $# -eq 0 ]; then
+                # untar to current dir
+                dest=`pwd`
+        else
+                dest=$1
+                param="-C $1 -m"
+        fi
+
+        if [ -d $dest -a -w $dest ]; then
+
+                echo "Uncompress files to $dest"
+                match=$(grep --text --line-number '^PAYLOAD:$' $0 | cut -d ':' -f 1)
+                payload_start=$((match + 1))
+                if [[ $binary -ne 0 ]]; then
+                        tail -n +$payload_start $0 | tar $param -xzvf -
+                fi
+                if [[ $uuencode -ne 0 ]]; then
+                        tail -n +$payload_start $0 | uudecode | tar $param -xzvf -
+                fi
+
+        else
+                echo "$dest does not exist or it's not writable"
+        fi
+}
+
+language=${LANG%.*}
+echo -n -e "Press \e[1;37;42m ENTER \e[0m to continue, or \e[1;37;41m <Ctrl>+C \e[0m to abort... "
+
+read ans
+
+if [ x$ans = xl ]; then	# if press l, list the tarball and exit, just for debug
+        list_payload
+        exit 0
+fi
+
+# TODO: use untar_payload() to uncompress to a directory and do sth
+
+# Do remainder of install steps.
+
+exit 0
