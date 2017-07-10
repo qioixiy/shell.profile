@@ -1,4 +1,4 @@
-OB[Unit]
+[Unit]
 Description=GNU Emacs: the extensible, self-documenting text editor, daemon
 Documentation=man:emacs(1) info:Emacs
 After=syslog.target network.target
