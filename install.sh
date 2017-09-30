@@ -1,7 +1,16 @@
 #!/bin/sh
 
+install_list=`ls install.d`
+
+for item in $install_list
+do
+    path="install.d/"$item
+    echo install $path
+    sh $path
+done
+
 list=$(ls -a | grep -v "^\.\.*$" | grep -v "^\.git$" \
-		   | grep -v "install.sh"| grep -v "README.md")
+           | grep -v -E 'README.md|install.sh|install.d')
 
 for i in $list
 do
