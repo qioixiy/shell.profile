@@ -17,4 +17,4 @@ TimeoutStartSec=0
 Environment=SSH_AUTH_SOCK=/run/user/1000/keyring/ssh GPG_AGENT_INFO=/run/user/1000/keyring/gpg:0:1
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target

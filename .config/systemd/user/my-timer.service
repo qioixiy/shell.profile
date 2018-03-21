@@ -1,0 +1,6 @@
+[Unit]
+Description=my timer
+
+[Service]
+Type=simple
+ExecStart=/home/cndul/bin/take-break.sh
