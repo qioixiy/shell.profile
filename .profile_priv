@@ -259,6 +259,7 @@ kernelgraph() { lsmod | perl -e 'print "digraph \"lsmod\" {";<>;while(<>){@_=spl
 alias busy="cat /dev/urandom | hexdump -C | grep \"ca fe\""
 
 alias e='`my_editer` -nw $@'
+alias eq='`my_editer` -nw -q $@'
 alias egui='`my_editer` $@'
 alias ec='`my_editer_client` -nw -c $@'
 alias ecg='`my_editer_client` -c -n $@'
