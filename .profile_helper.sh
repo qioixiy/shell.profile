@@ -126,3 +126,24 @@ _gettop()
 cd_git_top_dir() {
     cd $(_gettop ".git/config")
 }
+
+github_clone()
+{
+    if [ $# -lt 1 ]; then echo "invalid params"; exit -2; fi
+
+    url=$1
+
+    git_dir=~/zspace/repos/git/github.com/
+    if [ ! -d $git_dir ]; then echo "$git_dir is not exist"; exit -1; fi
+
+    pushd $git_dir
+    dirname=$(basename $(dirname $url))
+    mkdir -p $dirname
+
+    pushd $dirname
+    echo git clone url:$url start, dirname:$dirname
+    git clone $url
+    popd
+
+    popd
+}
