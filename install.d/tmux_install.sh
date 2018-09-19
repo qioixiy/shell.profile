@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # init tmux config
-mkdir ~/.tmux/plugins -p
+mkdir -p ~/.tmux/plugins
 pushd ~/.tmux/plugins
 
 if [ ! -d tmux-resurrect ]; then

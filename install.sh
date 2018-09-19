@@ -16,17 +16,18 @@ for i in $list
 do
     if [ -d $i ]
     then
-        cp $i/* $HOME/$i/ -rfv
+        cp -rfv $i/* $HOME/$i/
     else
-        cp $i $HOME -rfv
+        cp -rfv $i $HOME
     fi
 done
 
 # bash bootstrap
-grep profile_priv ~/.bashrc
+status=0
+[ -f ~/.bashrc ] && status=`grep profile_priv ~/.bashrc`
 status=$?
-if [ 1 -eq $status ]
-then
+
+if [ 1 -eq $status ]; then
     echo make bash boot strap
     cat <<_EOF >> ~/.bashrc
 # ~/.profile_priv
