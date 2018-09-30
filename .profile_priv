@@ -158,7 +158,7 @@ function my_editer() {
 }
 
 function my_editer_client() {
-    systemctl --user start emacs
+    systemctl --user start emacs > /dev/null 2>&1 || emacs --daemon
     echo emacsclient
 }
 
