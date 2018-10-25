@@ -199,6 +199,11 @@ function my_repeat() {
     done
 }
 
+function my_git_pull_current_dir_repo()
+{
+    find . -name .git -type d -exec sh -c "cd {}/.. && pwd && git reset --hard && git pull" \;
+}
+
 # url: http://alias.sh/
 # url: http://www.commandlinefu.com/commands/browse
 # url: http://xmodulo.com/useful-online-tools-linux.html
