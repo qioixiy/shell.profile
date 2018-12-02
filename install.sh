@@ -30,6 +30,7 @@ status=$?
 if [ 1 -eq $status ]; then
     echo make bash boot strap
     cat <<_EOF >> ~/.bashrc
+source /etc/profile
 # ~/.profile_priv
 [ -f ~/.profile_priv ] && . ~/.profile_priv
 _EOF
