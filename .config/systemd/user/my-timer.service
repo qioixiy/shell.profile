@@ -3,4 +3,4 @@ Description=my timer
 
 [Service]
 Type=simple
-ExecStart=/home/cndul/bin/take-break.sh
+ExecStart=/home/qioixiy/bin/take-break.sh
