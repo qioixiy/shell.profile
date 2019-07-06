@@ -134,6 +134,7 @@ github_clone()
     url=$1
 
     git_dir=~/zspace/repos/git/github.com/
+    mkdir -p $git_dir
     if [ ! -d $git_dir ]; then echo "$git_dir is not exist"; exit -1; fi
 
     pushd $git_dir
