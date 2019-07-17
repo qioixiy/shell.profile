@@ -1,0 +1,8 @@
+[repo-non-oss]
+name=openSUSE-Tumbleweed-Non-Oss
+enabled=1
+autorefresh=1
+baseurl=http://mirrors.aliyun.com/opensuse/tumbleweed/repo/non-oss/
+path=/
+type=rpm-md
+keeppackages=0

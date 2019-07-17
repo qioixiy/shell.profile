@@ -1,0 +1,8 @@
+[openSUSE-20180827-0]
+name=openSUSE-20180827-0
+enabled=0
+autorefresh=1
+baseurl=hd:///?device=/dev/disk/by-id/usb-Kingston_DataTraveler_3.0_001D7D058630B010D94F30E6-0:0-part2
+path=/
+type=rpm-md
+keeppackages=0
