@@ -1,11 +1,16 @@
+# ~/.screenrc
+
 startup_message off
-defscrollback 10240
-
-hardstatus alwayslastline "%{=b}%{G} Screen(s): %{b}%w %=%{kG}%C%A  %D, %M/%d/%Y "
-
-escape ^Zz #Instead of control-a
-
 # conflict with emacs key(C-x C-s)
 defflow off
-
 vbell off
+defscrollback 10240
+
+hardstatus on
+hardstatus alwayslastline
+hardstatus string "%{.bW}%-w%{.rY}%n %t%{-}%+w %=%{..G} %H(%l) %{..Y} %Y/%m/%d %c:%s "
+hardstatus alwayslastline "%{=b}%{G} Screen(s): %{b}%w %=%{kG}%C%A  %D, %M/%d/%Y "
+
+escape ^Zz #replace ctrl-a with ctrl-z, enter ctrl-z z will be ctrl-z
+
+bind w windowlist -b
