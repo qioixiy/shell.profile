@@ -1,0 +1,11 @@
+startup_message off
+defscrollback 10240
+
+hardstatus alwayslastline "%{=b}%{G} Screen(s): %{b}%w %=%{kG}%C%A  %D, %M/%d/%Y "
+
+escape ^Zz #Instead of control-a
+
+# conflict with emacs key(C-x C-s)
+defflow off
+
+vbell off
