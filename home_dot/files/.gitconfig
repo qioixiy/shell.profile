@@ -3,10 +3,6 @@
 [user]
 	email = qioixiy@gmail.com
 	name = qioixiy
-[push]
-	default = simple
-[review "http://127.0.0.1:8080"]
-	username = qioixiy
 [color]
 	ui = auto
 	; @see http://comments.gmane.org/gmane.comp.version-control.git/166098
