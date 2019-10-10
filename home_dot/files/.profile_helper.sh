@@ -127,6 +127,10 @@ cd_git_top_dir() {
     cd $(_gettop ".git/config")
 }
 
+cd_repo_top_dir() {
+    cd $(_gettop ".repo/manifest.xml")
+}
+
 github_clone()
 {
     if [ $# -lt 1 ]; then echo "invalid params"; exit -2; fi
