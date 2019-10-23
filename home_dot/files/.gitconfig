@@ -23,11 +23,16 @@
 	c = commit
 	co = checkout
 	b = branch
+	br = branch -r
 	s=show
 	l = log --oneline --decorate --graph
 	d =diff
 	dw=diff --word-diff #highlight word changes
 	dc = diff --cached
+	di = diff --no-ext-diff
+	id = diff --ext-diff
+	is = show --ext-diff
+	il = log --ext-diff -p
 	t=stash
 	a=add
 	f=format-patch -n --stdout
@@ -50,7 +55,6 @@
 	com = checkout master
 	me = merge --no-commit --no-ff
 	glt = log --pretty=format:'%h : %s' --topo-order --graph
-	phm = push heroku master
 	pom = push origin master
 	puom= pull origin master
 	untrac=rm -r --cached
@@ -58,5 +62,43 @@
 	#produce patch for hg
 	hgp = show --format=\"From: %an <%ae>%n%s%n%b\" -U8
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%CresOAet %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	
+	# refs: https://github.com/saltycrane/homedir/blob/osx/etc/.gitconfig
+	# Show the divergent history of my branch and its upstream
+	# https://twitter.com/nedbat/status/1017432899967160321?s=09
+	# https://github.com/nedbat/dot/blob/master/.gitconfig
+	y = "!f() { git log --oneline --graph HEAD @{u} $(git merge-base HEAD @{u})^!; }; f"
+	# list recent local and remote branches
+	# http://stackoverflow.com/questions/5188320/how-can-i-get-a-list-of-git-branches-ordered-by-most-recent-commit
+	# http://blogs.atlassian.com/2014/10/advanced-git-aliases/
+	# http://stackoverflow.com/questions/13582872/gitconfig-bad-config-for-shell-command
+	rec = "!f() { \
+		echo 'REMOTE'; \
+		git for-each-ref --count=8 --sort=-committerdate --format='%(refname:short)' refs/remotes | sed 's/origin\\///g'; \
+		echo; \
+		echo 'LOCAL'; \
+		git for-each-ref --count=8 --sort=-committerdate --format='%(refname:short)' refs/heads; \
+	}; f"
+
+	# http://stackoverflow.com/questions/5188320/how-can-i-get-a-list-of-git-branches-ordered-by-most-recent-commit
+	rec2 = branch --sort=committerdate --format='%(HEAD) %(color:green)%(committerdate:format:%Y-%m-%d %H:%M) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) %(color:reset)'
+
+	# http://stackoverflow.com/questions/267761/what-does-your-gitconfig-contain/3202614#3202614
+	# show full history in gitk (including "deleted" branches and stashes)
+	history-all = !gitk --all $( git fsck | awk '/dangling commit/ {print $3}' )
+	# show list of contributors in descending order by number of commits
+	rank = shortlog -sn --no-merges
+	# given a string for an author, try to figure out full name and email:
+	whois = "!sh -c 'git log -i -1 --pretty=\"format:%an <%ae>\n\" --author=\"$1\"' -"
+	# given any git object, try to show it briefly
+	whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
+	# Search for a given string in all patches and print commit messages
+	# example: search for any commit that adds or removes string "foobar"
+	#     git searchcommits foobar
+	# example: search commits for string "foobar" in directory src/lib
+	#     git searchcommits foobar src/lib
+	# example: search commits for "foobar", print full diff of commit with 1 line context
+	#     git searchcommits foobar --pickaxe-all -U1 src/lib
+	searchcommits = "!f() { query=\"$1\"; shift; git log -S\"$query\" \"$@\"; }; f \"$@\""
 [merge]
 	tool = vimdiff
