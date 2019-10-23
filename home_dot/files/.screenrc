@@ -14,3 +14,30 @@ hardstatus alwayslastline "%{=b}%{G} Screen(s): %{b}%w %=%{kG}%C%A  %D, %M/%d/%Y
 escape ^Zz #replace ctrl-a with ctrl-z, enter ctrl-z z will be ctrl-z
 
 bind w windowlist -b
+
+# refs
+# - https://www.saltycrane.com/blog/2008/01/how-to-scroll-in-gnu-screen/
+# - https://github.com/saltycrane/homedir/blob/master/etc/.screenrc
+# detach on disconnect
+autodetach on
+
+# use backtick for prefix key instead of Ctrl-A
+escape ``
+
+# so it won't seem like there is a delay when entering copy mode
+msgminwait 0
+
+# make copy mode behave more like my emacs
+bindkey "^[k" eval "copy" "stuff ^b"
+bindkey "^k" eval "copy" "stuff k"
+bindkey -m "^[j" stuff ^f   # move down one page
+bindkey -m "^[k" stuff ^b   # move up one page
+bindkey -m "^[h" stuff b    # move backward word
+bindkey -m "^[l" stuff w    # move forward by word
+bindkey -m "^j" stuff j     # move down one line
+bindkey -m "^k" stuff k     # move up one line
+bindkey -m "^h" stuff h     # move back one character
+bindkey -m "^l" stuff l     # move forward one character
+bindkey -m "^a" stuff 0     # move to beginning of line
+bindkey -m "^f" stuff ^s    # incremental search forward
+bindkey -m "^g" stuff q # exit copy mode
