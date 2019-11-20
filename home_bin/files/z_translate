@@ -1,0 +1,66 @@
+#!/usr/bin/env python2
+# -*- coding: UTF-8 -*-
+
+from optparse import OptionParser
+import httplib
+import md5
+import urllib
+import random
+
+class Translator:
+    def __init__(self):
+        pass
+
+    def run(self, q='', fromLang='zh', toLang='en'):
+        pass
+
+# baidu Translator
+class BaiduTranslator(Translator):
+    def __init__(self):
+        self.appid = '20191117000357771' # baidu translate appid
+        self.secretKey = 'RmW1Z1NXaKWhhSb5IakJ' # app key
+        self.url = '/api/trans/vip/translate'
+
+    def run(self, q='', fromLang='zh', toLang='en'):
+        httpClient = None
+        salt = random.randint(32768, 65536)
+        sign = self.appid+q+str(salt)+self.secretKey
+        m1 = md5.new()
+        m1.update(sign)
+        sign = m1.hexdigest()
+        url = self.url+'?appid='+self.appid+'&q='+urllib.quote(q)+'&from='+fromLang+'&to='+toLang+'&salt='+str(salt)+'&sign='+sign
+
+        try:
+            httpClient = httplib.HTTPConnection('api.fanyi.baidu.com')
+            httpClient.request('GET', url)
+
+            response = httpClient.getresponse()
+            print response.read()
+        except Exception, e:
+            print e
+        finally:
+            if httpClient:
+                httpClient.close()
+
+# main entry
+def main():
+    parser = OptionParser()
+    parser.add_option("-f", "--from-lang", dest="fromLang",
+                      default='zh',
+                      help="from language")
+    parser.add_option("-t", "--to-lang", dest="toLang",
+                      default='en',
+                      help="to language")
+    parser.add_option("-w", "--words", dest="words",
+                      default='',
+                      help="the words wait to translate")
+
+    (options, args) = parser.parse_args()
+
+    translator = BaiduTranslator()
+
+    translator.run(
+        getattr(options, 'words'), getattr(options, 'fromLang'), getattr(options, 'toLang'))
+
+if __name__ == '__main__':
+    main()
