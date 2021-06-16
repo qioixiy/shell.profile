@@ -290,6 +290,7 @@ my_switch_PS1() {
 # autojump
 [ -f /usr/share/autojump/autojump.sh ] && source /usr/share/autojump/autojump.sh
 [ -f /usr/share/autojump/autojump.bash ] && source /usr/share/autojump/autojump.bash
+[[ -s $HOME/.autojump/etc/profile.d/autojump.sh ]] && source $HOME/.autojump/etc/profile.d/autojump.sh
 
 if [ Darwin = "$(uname 2>/dev/null)" ]; then
     source ~/.git-completion.bash
